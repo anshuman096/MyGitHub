@@ -1,9 +1,17 @@
 import React, {Component} from 'react';
-import {View, FlatList, Image, Text, StyleSheet, Button, Alert, ScrollView, TouchableOpacity, Linking, AsyncStorage, ActivityIndicator} from 'react-native';
-import {TabNavigator} from 'react-navigation';
-import MyRepos from './Repos';
-import MyFollowers from './Followers';
-import MyFollowing from './Following';
+import {View, 
+	FlatList, 
+	Image, 
+	Text, 
+	StyleSheet, 
+	Button, 
+	Alert, 
+	ScrollView, 
+	TouchableOpacity, 
+	Linking, 
+	AsyncStorage, 
+	ActivityIndicator} from 'react-native';
+
 const base64 = require('base-64'); //useful in creating a login page
 
 /**
@@ -13,7 +21,7 @@ const base64 = require('base-64'); //useful in creating a login page
  *
  * @author: Anshuman Dikhit
  */
-class MyGitHub extends Component {
+export default class MyGitHub extends Component {
 
 	constructor(props) {
 		super(props);
@@ -218,62 +226,3 @@ const styles = StyleSheet.create({
     }
 });
 
-
-
-//StackNavigator that determines navigation of all
-//page within the app.
-let routeConfigs = {
-    Home: {
-        screen: MyGitHub,
-        navigationOptions: ({navigation}) => ({
-            tabBarLabel: ({tintColor}) => <TouchableOpacity
-                            onPress = {() => {navigation.navigate('Home', {date: new Date()});}}
-                            style = {{alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style = {styles.infoLabel}>Profile</Text>
-                        </TouchableOpacity>
-        })
-    },
-    Repos: {
-        screen: MyRepos,
-        navigationOptions: ({navigation}) => ({
-            tabBarLabel: ({tintColor}) => <TouchableOpacity
-                            onPress = {() => {navigation.navigate('Repos', {date: new Date()});}}
-                            style = {{alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style = {styles.infoLabel}>Repos</Text>
-                        </TouchableOpacity>
-        })
-    },
-    Followers: {
-        screen: MyFollowers,
-        navigationOptions: ({navigation}) => ({
-            tabBarLabel: ({tintColor}) => <TouchableOpacity
-                            onPress = {() => {
-                                //console.log('MyGitHub navigation followers username: ' + this.state.data);
-                                navigation.navigate('Followers', {date: new Date()});
-                            }}
-                            style = {{alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style = {styles.infoLabel}>Followers</Text>
-                        </TouchableOpacity>
-        })
-    },
-    Following: {
-        screen: MyFollowing,
-        navigationOptions: ({navigation}) => ({
-            tabBarLabel: ({tintColor}) => <TouchableOpacity
-                            onPress = {() => {navigation.navigate('Following', {date: new Date()});}}
-                            style = {{alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style = {styles.infoLabel}>Following</Text>
-                        </TouchableOpacity>
-        })
-    }
-};
-
-let tabNavigatorConfig = {
-    tabBarPosition: 'bottom',
-    animationEnabled: true,
-    swipeEnabled: true
-};
-
-const MyGitHubNavigator = TabNavigator(routeConfigs, tabNavigatorConfig);
-
-export default MyGitHubNavigator;

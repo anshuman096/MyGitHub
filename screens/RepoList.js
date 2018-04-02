@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, Linking, AsyncStorage } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
-import { search } from './Utils';
-const base64 = require('base-64'); 
+import { search } from '../utils/Utils'; 
 
 /**
  * This class uses a FlatList component to list out
@@ -40,7 +39,10 @@ export default class RepoList extends Component {
         var url = 'https://api.github.com/users/' + this.props.username + '/repos';
         let response = await fetch(url, {
             method: 'GET',
-            headers: {'Content-Type':'application/json'}
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization':this.props.authToken
+            }
         });
 
         let responseJson = await response.json();
@@ -72,7 +74,7 @@ export default class RepoList extends Component {
             isLoading: false
         });
 
-        //console.log('RepoList -> componentWillMount starredList: ' + this.state.starred);
+        //console.log('RepoList -> componentWillMount data: ' + JSON.stringify(this.state.data));
 
         var key = this.props.username + '_repos';
         console.log('RepoList -> componentWillMount key: ' + key);
@@ -191,6 +193,14 @@ export default class RepoList extends Component {
             data : results
         }); 
     } 
+
+	launchRepoDetails(repo) {
+		if (repo.owner.login.includes("anshuman096")) {
+			this.props.navigation.navigate('CoolRepoDetails', {repo: repo});
+		} else {
+			this.props.navigation.navigate('RepoDetails', {repo: repo});
+		}
+	}
     
     
     /**
@@ -225,16 +235,17 @@ export default class RepoList extends Component {
                                 this.switchFollowers(item.owner.login, item.name, this.state.starred[item.login])
                             }}
                             avatar={{ uri: item.owner.avatar_url }}
-                            onPress={() => {
-                                this.props.navigation.navigate('Home', {username: item.login})
-                            }}
                             subtitle={item.description}
-                            onPress={() => { Linking.openURL(item.html_url) }}/>);
+							onPress={() => {
+								this.launchRepoDetails(item);
+							}}
+						/>);
                     }}
                 keyExtractor={item => item.id} 
             />
         </List>
     );
+	//onPress={() => { Linking.openURL(item.html_url) }}
     }
 }
 

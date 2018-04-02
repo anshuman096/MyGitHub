@@ -45,7 +45,8 @@ export default class MyRepos extends Component {
                 <Text style = {styles.title}>Public Repositories</Text>
                 <RepoList style = {styles.background} 
                     username = {this.state.username} 
-                    authToken = {this.state.authToken}/>
+                    authToken = {this.state.authToken}
+                    navigation = {this.props.navigation}/>
             </View>
         );
     }  

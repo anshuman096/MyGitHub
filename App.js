@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, TextInput, View, TouchableOpacity, Image, ImageBackground, ActivityIndicator, AsyncStorage, StyleSheet, Alert} from 'react-native';
+import { ScrollView, 
+	Text, 
+	TextInput, 
+	View, 
+	TouchableOpacity, 
+	Image, 
+	ImageBackground, 
+	ActivityIndicator, 
+	AsyncStorage, 
+	StyleSheet, 
+	Alert} from 'react-native';
 const base64 = require('base-64'); 
-import MyGitHubNavigator from './MyGitHub';
+import MyGitHubNavigator from './routes/MyRoutes';
 
 export default class App extends Component {
     
