@@ -17,8 +17,8 @@ async function getData(url, authToken) {
             'Authorization': authToken
         }
     });
-    let responseJson = await response.json();
-    return responseJson;
+    //let responseJson = await response.json();
+    return response;
 } 
 
 /**

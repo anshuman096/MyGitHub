@@ -31,16 +31,18 @@ export default class CoolRepoDetails extends Component {
 	var authToken = this.props.navigation.state.params.authToken;
 
 	url = "https://api.github.com/repos/" + repo.full_name + "/commits";
-	let commitJson = await getData(url, authToken);
+	let commitJsonData = await getData(url, authToken);
+    let commitJson = await commitJsonData.json();
 
     contributorsUrl = "https://api.github.com/repos/" + repo.full_name + "/stats/contributors";
-    let contributorsJSON = await getData(contributorsUrl, authToken);
+    let contributorsData = await getData(contributorsUrl, authToken);
+    let contributorsJSON = await contributorsData.json();
 
 
 	results = [];
 	for (i = 0; i < commitJson.length; i++) {
 		var item = commitJson[i];
-		console.log(JSON.stringify(item));
+		//console.log(JSON.stringify(item));
 		commitInstance = { time: item.commit.author.date, title: item.commit.author.name, description: item.commit.message };
 		results.push(commitInstance);
 	}
@@ -64,7 +66,7 @@ export default class CoolRepoDetails extends Component {
 	console.log("CoolRepoDetails  -->   render ");
 	if(this.state.isLoading == true)
         return null;
-	console.log(JSON.stringify(this.state.data));
+	//console.log(JSON.stringify(this.state.data));
     return (
       <View style={styles.container}>
 		<Text style={styles.title}>{this.state.repo.full_name}</Text>

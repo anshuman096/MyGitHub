@@ -29,7 +29,8 @@ export default class RepoDetails extends Component {
 	var authToken = this.props.navigation.state.params.authToken;
 
 	url = "https://api.github.com/repos/" + repo.full_name + "/stats/contributors";
-	let contributors = await getData(url, authToken);
+	let contributorsData = await getData(url, authToken);
+    let contributors = await contributorsData.json();
 	
 	var results = [];
 	var rDict = {};

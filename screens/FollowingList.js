@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, Linking, AsyncStorage } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
-import { search } from '../utils/Utils';
+import { search, getData } from '../utils/Utils';
 const base64 = require('base-64'); 
 
 /**
@@ -38,14 +38,7 @@ export class FollowingList extends Component {
     async componentWillMount() {
         const { page, seed } = this.state;
         var url = 'https://api.github.com/users/' + this.props.username + '/following';
-        let response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type':'application/json',
-                'Authorization':this.props.authToken
-            }
-        });
-
+        let response = await getData(url, this.props.authToken);
         let responseJson = await response.json();
 
         await this.setState({
@@ -57,13 +50,7 @@ export class FollowingList extends Component {
             item = responseJson[i];
             isFollowing = false;
             var followers_url = 'https://api.github.com/user/following/' + item.login;
-            let isFollowingResponse = await fetch(followers_url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type':'application/json',
-                    'Authorization': this.props.authToken
-                }
-            });
+            let isFollowingResponse = await getData(followers_url, this.props.authToken);
             isFollowing = (isFollowingResponse.status == 204);
             //console.log('FollowerList -> componentWillMount 1: ' + item.login + ' isFollowing is: ' + isFollowing); 
             followingList[item.login] = isFollowing;
@@ -96,15 +83,7 @@ export class FollowingList extends Component {
                     username: nextUser
                 });
                 var url = 'https://api.github.com/users/' + nextUser + '/following';
-
-                let response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type':'application/json',
-                        'Authorization':this.props.authToken
-                    }
-                });
-
+                let response = await getData(url, this.props.authToken);
                 let responseJson = await response.json()||[];
                 await this.setState({data:responseJson});
 
@@ -113,13 +92,7 @@ export class FollowingList extends Component {
                     item = responseJson[i];
                     isFollowing = false;
                     var followers_url = 'https://api.github.com/use/following/' + item.login;
-                    let isFollowingResponse = await fetch(followers_url, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': this.props.authToken
-                        }
-                    });
+                    let isFollowingResponse = await getData(followers_url, this.props.authToken);
                     isFollowing = (isFollowingResponse.status == 204);
                     followingList[item.login] = isFollowing;
 
