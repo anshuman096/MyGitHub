@@ -196,9 +196,19 @@ export default class RepoList extends Component {
 
 	launchRepoDetails(repo) {
 		if (repo.owner.login.includes("anshuman096")) {
-			this.props.navigation.navigate('CoolRepoDetails', {repo: repo});
+			this.props.navigation.navigate('CoolRepoDetails', 
+                {
+                    repo: repo,
+                    authToken: this.props.authToken
+                }
+            );
 		} else {
-			this.props.navigation.navigate('RepoDetails', {repo: repo});
+			this.props.navigation.navigate('RepoDetails', 
+                {
+                    repo: repo,
+                    authToken: this.props.authToken
+                }
+            );
 		}
 	}
     

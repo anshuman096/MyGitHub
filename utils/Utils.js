@@ -1,6 +1,30 @@
 import {AsyncStorage} from "react-native";
 
 
+/**
+ * A utilities function for getting a JSON object of the
+ * respective api url passed in
+ *
+ */
+async function getData(url, authToken) {
+
+    console.log("Utils --> URL " + url);
+    console.log("Utils --> authToken " + authToken);
+    let response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type':'application/json',
+            'Authorization': authToken
+        }
+    });
+    let responseJson = await response.json();
+    return responseJson;
+} 
+
+/**
+ * A comparator function for sorting repositories
+ *
+ */
 function sortRepos(a, b) {
 	if(a.stargazers_count < b.stargazers_count)
 		return -1;
@@ -9,31 +33,21 @@ function sortRepos(a, b) {
 	return 0;
 }
 
-function sortFollowers(a, b) {
+
+/**
+ * A comparator function for sorting followers
+ *
+ */
+async function sortFollowers(a, b, authToken) {
 	var a_followers = 0;
 	var b_followers = 0;
 
-	fetch(a.html_url, {
-		method: 'GET',
-		headers: {
-			'Content-Type':'applications/json'
-		}
-	}).then((response) => {
-		response.json()
-	}).then((responseJson) => {
-		a_followers = responseJson.followers;
-	});
 
-	fetch(b.html_url, {
-		method: 'GET',
-		heades: {
-			'Content-Type':'applications/json'
-		}
-	}).then((response) => {
-		response.json()
-	}).then((responseJson) => {
-		b_followers = responseJson.followers;
-	});
+	let responseJsonA = await getData(a.html_url, authToken);
+	let responseJsonB = await getData(b.html_url, authToken);
+
+	a_followers = responseJsonA.followers;
+	b_followers = responseJsonB.followers;
 
 	if(a_followers < b_followers)
 		return -1;
@@ -44,7 +58,7 @@ function sortFollowers(a, b) {
 
 
 
-async function search(key, field, text) {
+async function search(key, field, text, authToken) {
     let data = await AsyncStorage.getItem(key);
     var searchData = JSON.parse(data);
     var results = [];
@@ -61,6 +75,8 @@ async function search(key, field, text) {
 			results.sort(sortFollowers);
 	} 
     return results.reverse();
-}   
+}  
+
 
 module.exports.search = search;
+module.exports.getData = getData;

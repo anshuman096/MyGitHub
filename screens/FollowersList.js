@@ -16,7 +16,6 @@ const base64 = require('base-64');
 export class FollowersList extends Component {
     constructor(props, type) {
         super(props);
-
         this.state = {
             isLoading: true,
             data: [],
@@ -183,7 +182,7 @@ export class FollowersList extends Component {
     async searchFollowersText(text) {
         console.log('FollowersList -> searchFollowersText username: ' + this.state.username);
         var key = this.state.username + '_followers';
-        let results = await search(key, 'login', text);
+        let results = await search(key, 'login', text, this.props.authToken);
         this.setState({
             data: results
         });

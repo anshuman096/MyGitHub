@@ -180,18 +180,6 @@ export class FollowingList extends Component {
     * @text: the search text
     */
     async searchFollowingText(text) {
-        // var key = this.state.username + '_following';
-        // let data = await AsyncStorage.getItem(key);
-        // var followingData = JSON.parse(data);
-        // var searchFollowing = []
-        // for(i = 0; i < followingData.length; i++) {
-        //     item = followingData[i];
-        //     if(item.login.includes(text))
-        //         searchFollowing.push(item);
-        // }
-        // await this.setState({
-        //     data: searchFollowing
-        // });
         console.log('FollowersList -> searchFollowingText username: ' + this.state.username);
         var key = this.state.username + '_following';
         let results = await search(key, 'login', text);
