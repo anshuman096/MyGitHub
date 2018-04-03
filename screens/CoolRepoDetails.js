@@ -19,7 +19,9 @@ export default class CoolRepoDetails extends Component {
     this.state = {
         isLoading:true,
         data:[],
-		event:[]
+		event:[],
+        contributors: '',
+        forks: ''
 	}
   }
 
@@ -31,6 +33,9 @@ export default class CoolRepoDetails extends Component {
 	url = "https://api.github.com/repos/" + repo.full_name + "/commits";
 	let commitJson = await getData(url, authToken);
 
+    contributorsUrl = "https://api.github.com/repos/" + repo.full_name + "/stats/contributors";
+    let contributorsJSON = await getData(contributorsUrl, authToken);
+
 
 	results = [];
 	for (i = 0; i < commitJson.length; i++) {
@@ -40,11 +45,15 @@ export default class CoolRepoDetails extends Component {
 		results.push(commitInstance);
 	}
 
-	console.log(JSON.stringify(results));
+	//console.log(JSON.stringify(results));
+    var contributorsString = 'Contributors: ' + contributorsJSON.length;
+    var forkString = 'Forks: ' + this.props.navigation.state.params.repo.forks_count;
 
 	this.setState({
 		data: results,
 		repo: repo,
+        contributors: contributorsString,
+        forks: forkString,
 		isLoading: false
 	});
 
@@ -60,6 +69,10 @@ export default class CoolRepoDetails extends Component {
       <View style={styles.container}>
 		<Text style={styles.title}>{this.state.repo.full_name}</Text>
 		<Text style={styles.field}>{this.state.repo.description}</Text>
+        <View style={styles.repoInfo}>
+            <Text style={styles.field}>{this.state.contributors}</Text>
+            <Text style={styles.field}>{this.state.forks}</Text>
+        </View>
         <Timeline 
           style={styles.list}
           data={this.state.data}
@@ -81,15 +94,15 @@ export default class CoolRepoDetails extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 5,
-    backgroundColor:'white'
-  },
-  list: {
-    flex: 1,
-    marginTop:20,
-  },
+    container: {
+        flex: 1,
+        padding: 5,
+        backgroundColor:'white'
+    },
+    list: {
+        flex: 1,
+        marginTop:20,
+    },
     title: {
         fontSize: 18,
         fontWeight: 'bold',
@@ -104,4 +117,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Avenir',
         color: '#a9a9a9'
     },
+    repoInfo: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    }
 });

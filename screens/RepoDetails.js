@@ -147,26 +147,26 @@ export default class RepoDetails extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 5,
-    backgroundColor:'white'
-  },
-  heading: {
-	padding: 10,
-  },
-  highlights: {
-    flex: 4,
-	flexDirection: 'row',
-	justifyContent: 'space-between'
-  },
-  charts: {
-    flex: 10,
-  },
-  list: {
-    flex: 1,
-    marginTop:20,
-  },
+    container: {
+        flex: 1,
+        padding: 5,
+        backgroundColor:'white'
+    },
+    heading: {
+	   padding: 10,
+    },
+    highlights: {
+        flex: 4,
+	   flexDirection: 'row',
+	   justifyContent: 'space-between'
+    },
+    charts: {
+        flex: 10,
+    },
+    list: {
+        flex: 1,
+        marginTop:20,
+    },
     title: {
         fontSize: 18,
         fontWeight: 'bold',
