@@ -13,6 +13,13 @@ import {
 import { getData } from '../utils/Utils'; 
 import Timeline from 'react-native-timeline-listview'
 
+/**
+ * This class uses the react-native-timeline-listview component
+ * to create a timeline of commit history for just the main
+ * users repositories.
+ *
+ * @author: Anshuman Dikhit
+ */
 export default class CoolRepoDetails extends Component {
   constructor(props) {
 	super(props);
@@ -25,6 +32,9 @@ export default class CoolRepoDetails extends Component {
 	}
   }
 
+  /**
+   * componentWillMount will be called before render
+   */
   async componentWillMount() {
 	console.log("CoolRepoDetails  -->   componentWillMount ");
 	var repo = this.props.navigation.state.params.repo;
